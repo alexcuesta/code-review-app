@@ -41,13 +41,13 @@ with col1:
 with col2:
     st.subheader("Review Output")
 
-if st.session_state.get("feedback"):
-    st.markdown("### AI Code Review")
-    st.markdown(st.session_state["feedback"])
-elif code_input:
-    st.write("Review will appear here")
-else:
-    st.write("Paset some code to get started")
+    if st.session_state.get("feedback"):
+        st.markdown("### AI Code Review")
+        st.markdown(st.session_state["feedback"])
+    elif code_input:
+        st.write("Review will appear here")
+    else:
+        st.write("Paset some code to get started")
 
 uploaded_file = st.file_uploader("Or upload a file ", type=["java", "py"])
 
@@ -58,7 +58,9 @@ if uploaded_file is not None:
     except Exception:
         st.error("Error uploading file. Please upload a valid file")
 
-if code_input and st.button("Run Review"):
-    with st.spinner("Reviewing your code..."):
-        feedback = get_code_feedback(code_input)
-        st.session_state["feedback"] = feedback
+if code_input:
+    if st.button("Run Review"):
+        with st.spinner("Reviewing your code..."):
+            feedback = get_code_feedback(code_input)
+            st.session_state["feedback"] = feedback
+    st.rerun()
