@@ -5,7 +5,20 @@ from dotenv import load_dotenv
 import requests
 
 def get_code_feedback(code):
-    prompt = f"Review the following code, detect the language and give feedback on style, idiomacy, errors and clarity:\n\n{code}"
+    prompt = f"""
+    You are a helpful and friendly code review assistant.
+
+    Review the following code that could be written in Python or Java and give feedback in five clearly labeled sections:
+    1. **Language**: Display the code language.
+    2. **Style**: Comment on formatting, naming and structure.
+    3. **Idiomacy*: Highlight any violation of good practices or idioms and recommend improvements.
+    4. **Errors**: Point out any bug or mistake.
+    5. **Clarity**: Suggests ways to make the code easier to understand.
+
+    Here is the code:
+    {code}
+    """
+
     url = "http://localhost:11434/api/chat"
     payload = {
         "model": "mistral",
