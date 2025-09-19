@@ -4,18 +4,22 @@ from dotenv import load_dotenv
 
 import requests
 
+MAX_CHARS = 4000
+
 def get_code_feedback(code):
     prompt = f"""
     You are a helpful and friendly code review assistant.
 
-    Review the following code that could be written in Python or Java and give feedback in five clearly labeled sections:
+    Review the following code that could be written in Python or Java and give feedback in four clearly labeled sections:
     1. **Language**: Display the code language.
     2. **Style**: Comment on formatting, naming and structure.
-    3. **Idiomacy*: Highlight any violation of good practices or idioms and recommend improvements.
-    4. **Errors**: Point out any bug or mistake.
-    5. **Clarity**: Suggests ways to make the code easier to understand.
+    3. **Errors**: Point out any bug or mistake.
+    4. **Clarity**: Suggests ways to make the code easier to understand.
+
+    Keep it short. The entire response shouldnot exceed 30 lines.
 
     Here is the code:
+    
     {code}
     """
 
@@ -28,7 +32,7 @@ def get_code_feedback(code):
         "stream": False
     }
     try:
-        response = requests.post(url, json=payload, timeout=120)
+        response = requests.post(url, json=payload, timeout=150)
         response.raise_for_status()
         data = response.json()
         # Ollama returns the response in 'message' or 'choices', depending on version
@@ -60,7 +64,7 @@ with col2:
     elif code_input:
         st.write("Review will appear here")
     else:
-        st.write("Paset some code to get started")
+        st.write("Past some code to get started")
 
 uploaded_file = st.file_uploader("Or upload a file ", type=["java", "py"])
 
@@ -71,9 +75,16 @@ if uploaded_file is not None:
     except Exception:
         st.error("Error uploading file. Please upload a valid file")
 
-if code_input:
-    if st.button("Run Review"):
+if st.button("Run Review"):
+    if not code_input.strip():
+        st.warning("⚠️ Please paste or upload some code.")
+    elif len(code_input) > MAX_CHARS:
+        st.error(f"🚫 This code is too long. Keep it under {MAX_CHARS} chars.")
+    else:
         with st.spinner("Reviewing your code..."):
-            feedback = get_code_feedback(code_input)
-            st.session_state["feedback"] = feedback
-    st.rerun()
+            try:
+                feedback = get_code_feedback(code_input)
+                st.session_state["feedback"] = feedback 
+            except Exception as e:
+                st.error(f"💥 Opps! Something went wrong!")
+   
