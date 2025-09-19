@@ -11,10 +11,10 @@ def get_code_feedback(code):
     You are a helpful and friendly code review assistant.
 
     Review the following code that could be written in Python or Java and give feedback in four clearly labeled sections:
-    1. **Language**: Display the code language.
-    2. **Style**: Comment on formatting, naming and structure.
-    3. **Errors**: Point out any bug or mistake.
-    4. **Clarity**: Suggests ways to make the code easier to understand.
+    1. 💻 **Language**: Display the code language.
+    2. 👔 **Style**: Comment on formatting, naming and structure.
+    3. 🪳 **Errors**: Point out any bug or mistake.
+    4. 🔈 **Clarity**: Suggests ways to make the code easier to understand.
 
     Keep it short. The entire response shouldnot exceed 30 lines.
 
