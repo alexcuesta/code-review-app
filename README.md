@@ -5,7 +5,7 @@ This is a simple Streamlit app that allows you to upload code or paste it into a
 ## Requirements
 - Python 3.8+
 - [Streamlit](https://streamlit.io/)
-- [Ollama](https://ollama.com/) (for running Mistral locally)
+- [Ollama](https://ollama.com/) -> for running a model locally. Mistral is used in this example.
 - [python-dotenv](https://pypi.org/project/python-dotenv/)
 
 ## Setting up Mistral with Ollama
